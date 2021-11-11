@@ -71,7 +71,7 @@ export class Surah extends Component {
                   <View style={styles.wrapText}>
                     <Text style={styles.nameItem}>{item.name}</Text>
                     <Text style={styles.info}>
-                      {item.type} - {item.number_of_ayah} Ayat
+                      {item.type} | {item.number_of_ayah} Ayat
                     </Text>
                   </View>
                 </View>

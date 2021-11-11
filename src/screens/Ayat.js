@@ -1,5 +1,12 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, ImageBackground, FlatList} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  ImageBackground,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 
 export class Ayat extends Component {
   constructor(props) {
@@ -50,8 +57,13 @@ export class Ayat extends Component {
           data={this.state.data.verses}
           renderItem={({item, index}) => (
             <View style={styles.wrapItem}>
-              <View style={styles.wrapNumber}>
-                <Text style={styles.number}>{item.number}</Text>
+              <View style={styles.wrapButton}>
+                <View style={styles.wrapNumber}>
+                  <Text style={styles.number}>{item.number}</Text>
+                </View>
+                <TouchableOpacity style={styles.wrapMurottal}>
+                  <Text style={styles.number}>Putar Murottal</Text>
+                </TouchableOpacity>
               </View>
               <Text style={styles.arabic}>{item.text}</Text>
               <Text style={styles.translation}>{item.translation_id}</Text>
@@ -89,27 +101,42 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.2,
     borderBottomColor: '#fff',
   },
+  wrapButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    paddingHorizontal: 10,
+    paddingVertical: 13,
+    borderRadius: 10,
+    marginVertical: 10,
+    alignItems: 'center',
+  },
   wrapNumber: {
     backgroundColor: '#fff',
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 15,
-    marginBottom: 10,
-    marginTop: 15,
+  },
+  wrapMurottal: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   number: {
     color: '#001d3d',
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 'bold',
   },
   arabic: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: 22,
     textAlign: 'right',
     marginBottom: 10,
+    fontFamily: 'nefel',
   },
   translation: {
     fontSize: 15,

@@ -21,7 +21,7 @@ class Home extends Component {
       <View style={styles.container}>
         <StatusBar backgroundColor="#001d3d" />
         <View style={{marginVertical: 50}}>
-          <Text style={styles.title}>Quran App</Text>
+          <Text style={styles.title}>Al Quranul Karim</Text>
           <Text style={styles.subtitle}>
             Learn Quran and {'\n'} Recite once everyday
           </Text>
@@ -33,7 +33,7 @@ class Home extends Component {
             <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate('Surah')}>
-              <Text style={styles.textButton}>Get Started</Text>
+              <Text style={styles.textButton}>Mulai Baca</Text>
             </TouchableOpacity>
           </View>
         </View>
