@@ -1,3 +1,5 @@
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 import React, {Component} from 'react';
 import {
   Text,
@@ -62,7 +64,9 @@ export class Ayat extends Component {
                   <Text style={styles.number}>{item.number}</Text>
                 </View>
                 <TouchableOpacity style={styles.wrapMurottal}>
-                  <Text style={styles.number}>Putar Murottal</Text>
+                  <Icon name="share-alt" style={styles.play} />
+                  <Icon name="play" style={styles.play} />
+                  <Icon name="bookmark" style={styles.play} />
                 </TouchableOpacity>
               </View>
               <Text style={styles.arabic}>{item.text}</Text>
@@ -123,8 +127,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     padding: 10,
-    justifyContent: 'center',
+    flexDirection: 'row',
     alignItems: 'center',
+  },
+  play: {
+    fontSize: 10,
+    color: '#000',
+    marginHorizontal: 5,
   },
   number: {
     color: '#001d3d',
