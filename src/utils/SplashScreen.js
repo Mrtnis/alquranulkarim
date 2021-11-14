@@ -1,25 +1,23 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import {View, Image, StyleSheet} from 'react-native';
-import {StackActions} from '@react-navigation/routers';
 
-export class SplashScreen extends Component {
-  componentDidMount() {
+const SplashScreen = ({navigation}) => {
+  useEffect(() => {
     setTimeout(() => {
-      this.props.navigation.dispatch(StackActions.replace('Home'));
+      navigation.replace('Home');
     }, 2000);
-  }
+  }, []);
+  
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={require('../../assets/images/splash_screen.png')}
-          style={styles.image}
-        />
-      </View>
-    );
-  }
-}
+  return (
+    <View style={styles.container}>
+      <Image
+        source={require('../../assets/images/splash_screen.png')}
+        style={styles.image}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

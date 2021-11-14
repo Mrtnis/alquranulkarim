@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -8,83 +8,76 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-export class Surah extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      allData: [],
-    };
-  }
+const Surah = ({navigation}) => {
+  const [allData, setAllData] = useState([]);
 
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
+  const getData = () => {
     fetch(
       'https://raw.githubusercontent.com/penggguna/QuranJSON/master/quran.json',
     )
       .then(response => response.json())
       .then(json => {
-        this.setState({allData: json});
+        setAllData(json);
       })
       .catch(error => {
         console.error(error);
       });
   };
 
-  render() {
-    return (
-      <View style={{backgroundColor: '#001d3d', flex: 1}}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Quran App</Text>
-        </View>
-        <View style={styles.container}>
-          <Text style={styles.salam}>Assalamu'alaikum</Text>
-          <Text style={styles.name}>Martunis</Text>
-          <View style={styles.wrapImage}>
-            <ImageBackground
-              source={require('../../assets/images/surah.jpg')}
-              resizeMode="cover"
-              imageStyle={{borderRadius: 20}}
-              style={{flex: 1}}
-            />
-          </View>
-        </View>
-        <FlatList
-          style={{marginHorizontal: 20, marginTop: 20, marginBottom: 20}}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          data={this.state.allData}
-          renderItem={({item, index}) => (
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate('Ayat', {
-                  id: item.number_of_surah,
-                })
-              }>
-              <View style={styles.cardItem}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <View style={styles.wrapNumber}>
-                    <Text style={styles.number}>{item.number_of_surah}</Text>
-                  </View>
-                  <View style={styles.wrapText}>
-                    <Text style={styles.nameItem}>{item.name}</Text>
-                    <Text style={styles.info}>
-                      {item.type} | {item.number_of_ayah} Ayat
-                    </Text>
-                  </View>
-                </View>
-                <Text style={styles.arabic}>{item.name_translations.ar}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          keyExtractor={item => item.number_of_surah}
-        />
+  useEffect(() => {
+    getData();
+  });
+
+  return (
+    <View style={{backgroundColor: '#001d3d', flex: 1}}>
+      <View style={styles.header}>
+        <Text style={styles.title}>Quran App</Text>
       </View>
-    );
-  }
-}
+      <View style={styles.container}>
+        <Text style={styles.salam}>Assalamu'alaikum</Text>
+        <Text style={styles.name}>Martunis</Text>
+        <View style={styles.wrapImage}>
+          <ImageBackground
+            source={require('../../assets/images/surah.jpg')}
+            resizeMode="cover"
+            imageStyle={{borderRadius: 20}}
+            style={{flex: 1}}
+          />
+        </View>
+      </View>
+      <FlatList
+        style={{marginHorizontal: 20, marginTop: 20, marginBottom: 20}}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        data={allData}
+        renderItem={({item, index}) => (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Ayat', {
+                id: item.number_of_surah,
+              })
+            }>
+            <View style={styles.cardItem}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={styles.wrapNumber}>
+                  <Text style={styles.number}>{item.number_of_surah}</Text>
+                </View>
+                <View style={styles.wrapText}>
+                  <Text style={styles.nameItem}>{item.name}</Text>
+                  <Text style={styles.info}>
+                    {item.type} | {item.number_of_ayah} Ayat
+                  </Text>
+                </View>
+              </View>
+              <Text style={styles.arabic}>{item.name_translations.ar}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
+        keyExtractor={item => item.number_of_surah}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   header: {

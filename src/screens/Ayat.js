@@ -1,6 +1,6 @@
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -8,77 +8,90 @@ import {
   ImageBackground,
   FlatList,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 
-export class Ayat extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      numberSurah: this.props.route.params.id,
-      data: {},
-    };
-  }
+const Ayat = ({route}) => {
+  const [numberSurah] = useState(route.params.id);
+  const [data, setData] = useState({});
 
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
+  const getData = () => {
     fetch(
-      `https://raw.githubusercontent.com/penggguna/QuranJSON/master/surah/${this.state.numberSurah}.json`,
+      `https://raw.githubusercontent.com/penggguna/QuranJSON/master/surah/${numberSurah}.json`,
     )
       .then(response => response.json())
       .then(json => {
-        this.setState({data: json});
+        setData(json);
       })
       .catch(error => {
         console.error(error);
       });
   };
 
-  render() {
-    return (
-      <View style={{backgroundColor: '#001d3d', flex: 1}}>
-        <View style={styles.header}>
-          <Text style={styles.title}>{this.state.data.name}</Text>
+  const tesFitur = () => {
+    Alert.alert(
+      'Info penting',
+      'Fitur ini sedang dalam tahap pengembangan, sabar yaaa...',
+      [
+        {
+          text: 'OK',
+          onPress: () => {},
+        },
+      ],
+    );
+  };
+
+  useEffect(() => {
+    getData();
+  });
+
+  return (
+    <View style={{backgroundColor: '#001d3d', flex: 1}}>
+      <View style={styles.header}>
+        <Text style={styles.title}>{data.name}</Text>
+      </View>
+      <View style={styles.container}>
+        <View style={styles.wrapImage}>
+          <ImageBackground
+            source={require('../../assets/images/surah2.jpg')}
+            resizeMode="cover"
+            imageStyle={{borderRadius: 20}}
+            style={{flex: 1}}
+          />
         </View>
-        <View style={styles.container}>
-          <View style={styles.wrapImage}>
-            <ImageBackground
-              source={require('../../assets/images/surah2.jpg')}
-              resizeMode="cover"
-              imageStyle={{borderRadius: 20}}
-              style={{flex: 1}}
-            />
-          </View>
-        </View>
-        <FlatList
-          style={{marginHorizontal: 20, marginTop: 20, marginBottom: 20}}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          data={this.state.data.verses}
-          renderItem={({item, index}) => (
-            <View style={styles.wrapItem}>
-              <View style={styles.wrapButton}>
-                <View style={styles.wrapNumber}>
-                  <Text style={styles.number}>{item.number}</Text>
-                </View>
-                <TouchableOpacity style={styles.wrapMurottal}>
+      </View>
+      <FlatList
+        style={{marginHorizontal: 20, marginTop: 20, marginBottom: 20}}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        data={data.verses}
+        renderItem={({item, index}) => (
+          <View style={styles.wrapItem}>
+            <View style={styles.wrapButton}>
+              <View style={styles.wrapNumber}>
+                <Text style={styles.number}>{item.number}</Text>
+              </View>
+              <View style={styles.wrapMurottal}>
+                <TouchableOpacity onPress={tesFitur}>
                   <Icon name="share-alt" style={styles.play} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={tesFitur}>
                   <Icon name="play" style={styles.play} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={tesFitur}>
                   <Icon name="bookmark" style={styles.play} />
                 </TouchableOpacity>
               </View>
-              <Text style={styles.arabic}>{item.text}</Text>
-              <Text style={styles.translation}>{item.translation_id}</Text>
             </View>
-          )}
-          keyExtractor={item => item.number}
-        />
-      </View>
-    );
-  }
-}
+            <Text style={styles.arabic}>{item.text}</Text>
+            <Text style={styles.translation}>{item.translation_id}</Text>
+          </View>
+        )}
+        keyExtractor={item => item.number}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   header: {
@@ -112,7 +125,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 13,
     borderRadius: 10,
-    marginVertical: 10,
+    marginVertical: 15,
     alignItems: 'center',
   },
   wrapNumber: {
@@ -124,16 +137,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   wrapMurottal: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    width: 100,
   },
   play: {
-    fontSize: 10,
-    color: '#000',
-    marginHorizontal: 5,
+    fontSize: 13,
+    color: '#fff',
   },
   number: {
     color: '#001d3d',
@@ -144,7 +155,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 22,
     textAlign: 'right',
-    marginBottom: 10,
+    marginVertical: 13,
     fontFamily: 'nefel',
   },
   translation: {
@@ -154,3 +165,7 @@ const styles = StyleSheet.create({
 });
 
 export default Ayat;
+
+//   componentDidMount() {
+//     this.getData();
+//   }

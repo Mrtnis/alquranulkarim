@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -9,38 +9,32 @@ import {
   StyleSheet,
 } from 'react-native';
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-  }
+const Home = ({navigation}) => {
+  const windowHeight = Dimensions.get('window').height;
 
-  render() {
-    const windowHeight = Dimensions.get('window').height;
-
-    return (
-      <View style={styles.container}>
-        <StatusBar backgroundColor="#001d3d" />
-        <View style={{marginVertical: 50}}>
-          <Text style={styles.title}>Al Quranul Karim</Text>
-          <Text style={styles.subtitle}>
-            Learn Quran and {'\n'} Recite once everyday
-          </Text>
-          <View style={styles.wrapImage}>
-            <Image
-              source={require('../../assets/images/home.jpg')}
-              style={{width: 300, height: windowHeight * 0.6, borderRadius: 20}}
-            />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.props.navigation.navigate('Surah')}>
-              <Text style={styles.textButton}>Mulai Baca</Text>
-            </TouchableOpacity>
-          </View>
+  return (
+    <View style={styles.container}>
+      <StatusBar backgroundColor="#001d3d" />
+      <View style={{marginVertical: 50}}>
+        <Text style={styles.title}>Al Quranul Karim</Text>
+        <Text style={styles.subtitle}>
+          Learn Quran and {'\n'} Recite once everyday
+        </Text>
+        <View style={styles.wrapImage}>
+          <Image
+            source={require('../../assets/images/home.jpg')}
+            style={{width: 300, height: windowHeight * 0.6, borderRadius: 20}}
+          />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('Surah')}>
+            <Text style={styles.textButton}>Mulai Baca</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
